@@ -11,7 +11,7 @@ Talent Hunt
      1.DB_SERVER - this is the name of your server ex:- localhost or 127.0.0.1
      2.DB_USER   - this is the username for your mysql database ex:- root or test
      3.DB_PASS   - this is the password for the mysql database
-     4.DB_NAME   - this is the name of the database in which you have imported the dbtables.sql(dunp)
+     4.DB_NAME   - this is the name of the database in which you have imported the dbtables.sql(dump)
   
   Yippe you are ready to test this online examination system 
    please feel free to mail me to let me know your suggestions or ideas or problems in this system
