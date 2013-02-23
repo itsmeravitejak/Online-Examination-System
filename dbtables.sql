@@ -249,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`username`, `password`, `userid`, `userlevel`, `email`, `timestamp`, `branch_id`) VALUES
-('admin', '2496230b2612d0bd9a54707a08aeb408', 'd3f0b93bf63fefad081eb1f2cbb59d10', 9, 't@in.com', 1260347843, 1),
+('admin', 'e10adc3949ba59abbe56e057f20f883e', 'd3f0b93bf63fefad081eb1f2cbb59d10', 9, 't@in.com', 1260347843, 1),
 ('07030cm1', '2496230b2612d0bd9a54707a08aeb408', '6f64a43eb73d49a912d99fec0c5b14b0', 1, 't@in.com', 1260348086, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
