@@ -29,15 +29,26 @@ if($val){
 <script>
 $(function(){
 $('#clock').countdown({until: '+<?php echo $_SESSION['for'];?>m',format:'MS',onExpiry:comp});
-function comp(){$.post("exam-ajax.php",{action:"end"},function(data){window.location="results.php?user=<?php echo $session->username; ?>&result=latest"});}
+function comp(){$("#answers").submit();}
 $("#sub").click(function(){
-
-$.post("exam-ajax.php",{qid:$("#qid").val(),ans:$("input:checked").val()},function(data){$("#content").html(data);});
+$.post(".php",{qid:$("#qid").val(),ans:$("input:checked").val()},function(data){$("#content").html(data);});
 });
 });
 </script>
 <style>
 #clock{width:95px;height:40px;margin:3px 0px 0px 3px;}
+.right{float:right;padding-bottom: 5em; width: 20%;}
+.left{
+  float: left;
+  width:80%;
+  padding-bottom: 5em;
+  height:400px;
+  overflow: scroll;
+
+}
+.right table tbody tr{background-color: #4B2C0C;}
+.qs{background-color: #D08437;}
+#footer{margin-top: 20px;}
 </style>
 <meta http-equiv="content-type"
 content="text/html; charset=iso-8859-1" />
@@ -63,15 +74,88 @@ overflow: auto;
 <span class="strapline">Topic: <?php echo $database->gettopicname($_SESSION['top_id']);?></span>
 </div>
 <div id="content">
-
-(Q)<?php $id=$exam->loadQuestion(); ?><br>
-<?php $answers=$exam->loadans();
-foreach($answers as $answer)
-echo '<input type="radio" name="ans" class="ans" value='.$answer['key'].'>'.$answer['value'].'<br>';
+<div class="left">	
+<?php
+$count=1;
+do
+{
 ?>
-<input type="hidden" name="qid" id="qid" value="<?php echo $id; ?>">
+
+(Q<?php echo $count;?>)&nbsp;<?php $id=$exam->loadQuestion(); ?>
+<br>
+<?php
+ $allqids[]=$id;
+ $answers=$exam->loadans();
+ $allanswers[] = $answers;
+ 
+ $i='a';
+ foreach($answers as $answer)
+ {
+  
+  echo $i.")&nbsp;".$answer['value'].'<br>';
+  $i++;
+ }
+?>
+<br/>
+<?php 
+
+$exam->nextQ();
+$count++;
+
+
+}while(!$exam->isEndOFExam());
+ ?>
+ (Q<?php echo $count;?>)&nbsp;<?php $id=$exam->loadQuestion(); ?>
+<br>
+<?php
+ $allqids[]=$id;
+ $answers=$exam->loadans();
+ $allanswers[] = $answers;
+ 
+ $i='a';
+ foreach($answers as $answer)
+ {
+  
+  echo $i.")&nbsp;".$answer['value'].'<br>';
+  $i++;
+ }
+?>
+
 </div>
-<input type="button" id="sub" value="next" >
+ <div class="right">
+    <form action="evaluate.php" method="post" id="answers">
+    <table>
+    	<thead>
+        <td></td>
+    		<td>A</td>
+    		<td>B</td>
+    		<td>C</td>
+    		<td>D</td>
+    	</thead>
+        <?php
+     for($i=0;$i<count($allanswers);$i++){
+       
+        
+         ?>
+    	<tr>
+        <td class="qs"><?php echo $i+1;?></td>
+            <?php
+              
+                foreach ($allanswers[$i] as $answer) {
+            ?>
+    		<td><input type="radio" name="<?php echo $allqids[$i];?>" value="<?php echo $answer['key']; ?>"></td>
+            <?php
+                }
+            ?>
+    	</tr>
+    	<?php 
+    }
+    ?>
+    </table>
+    <input type="submit" value="go"> 
+  </form>
+ </div>
+</div>
 </div>
 <div id="footer">
 <div id="clock"></div>

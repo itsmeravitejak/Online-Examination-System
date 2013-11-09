@@ -1,3 +1,4 @@
 <?php
-include('admin.php');
+
+header("Location: admin.php");
 ?>

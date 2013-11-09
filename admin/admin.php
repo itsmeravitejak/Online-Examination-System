@@ -82,6 +82,7 @@ global $database;
 			buttons : [
 				{name: 'Add', bclass: 'add', onpress : test2},
 				{name: 'Delete', bclass: 'delete', onpress : test2},
+				{name: 'Upload', bclass: 'upload', onpress : test2},
 				{separator: true}
 				],
 				searchitems : [
@@ -117,6 +118,12 @@ global $database;
 					{
 					  $("#form2").slideToggle();
 					  $("#qtext").focus();
+					}
+				else if	(com=='Upload')
+					{
+						$("#uploadform").slideToggle();
+						$("#qsfile").focus();
+
 					}			
 			}
 			
@@ -315,13 +322,17 @@ global $database;
 		});
 		</script>
 		<style>
-		#tabs{font-size:75%;}
+		#tabs{font-size:75%;width: 80%;margin-left: 10%;}
 		.flexigrid div.fbutton .add
 		{
 			background: url(../css/images/add.png) no-repeat center left;
 		}	
-
-	.flexigrid div.fbutton .delete
+		.flexigrid div.fbutton .upload
+		{
+			background: url(../css/images/add.png) no-repeat center left;
+		}
+	    
+    	.flexigrid div.fbutton .delete
 		{
 			background: url(../css/images/close.png) no-repeat center left;
 		}	
@@ -348,7 +359,42 @@ global $database;
 <li><a href="#tabs5">Users</a></li>
 </ul>
 <div id="tabs1"><table id="flex1" style="display:none"></table><div id="form1" style="display:none;"><b>Branch name:</b><input type="text" id="brn"><input type="button" value="submit" id="brsub"></div></div>
-<div id="tabs2"><table id="flex2" style="display:none"></table><div id="form2" style="display:none;"><table><tr><td>Question text</td><td><textarea name="qtext" id="qtext"></textarea></td></tr><tr><td>option1</td><td><input type="text" id="op1" name="qop1"></td></tr><tr><td>option2</td><td><input type="text" id="op2" name="qop2"></td></tr><tr><td>option3</td><td><input type="text" id="op3" name="qop3"></td></tr><tr><td>option4</td><td><input type="text" id="op4" name="qop4"></td></tr><tr><td>correct option</td><td><select id="corans"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td></tr><tr><td>topic</td><td><select id="topid"><?php $database->topicslist();?></select></td></tr><tr><td><input type="button" value="submit" id="subq"></td><td></td></tr></table></div></div>
+<div id="tabs2">
+	<table id="flex2" style="display:none">
+	</table>
+	<div id="form2" style="display:none;">
+		<table>
+			<tr>
+				<td>Question text</td>
+				<td><textarea name="qtext" id="qtext"></textarea></td>
+			</tr>
+			<tr>
+				<td>option1</td>
+				<td><input type="text" id="op1" name="qop1"></td>
+			</tr>
+			<tr>
+				<td>option2</td><td><input type="text" id="op2" name="qop2"></td></tr><tr><td>option3</td><td><input type="text" id="op3" name="qop3"></td></tr><tr><td>option4</td><td><input type="text" id="op4" name="qop4"></td></tr><tr><td>correct option</td><td><select id="corans"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td></tr><tr><td>topic</td><td><select id="topid"><?php $database->topicslist();?></select></td></tr><tr><td><input type="button" value="submit" id="subq"></td><td></td></tr>
+			</table>
+	</div>
+	<div id="uploadform" style="display:none;"> 
+    	<form action="qsuploader.php" method="post" enctype="multipart/form-data">
+    		<table>
+    			<tr>
+				<td>topic</td>
+				<td>
+					<select name="topid">
+						<?php $database->topicslist();?>
+					</select>
+				</td>
+			    </tr>
+    			<tr>
+    				<td>Select File To Upload</td><td><input type="file" name="data" id="qsfile"></td>
+    			</tr>
+    			<tr><td><input type="submit" value="upload"></td><td><a href="testform.html">Test Before Uploading</a></td></tr>
+    		</table>    
+        </form>
+    </div>
+</div>
 <div id="tabs3"><table id="flex3" style="display:none"></table><div id="form3" style="display:none;"><table><tr><td>subject name:</td><td><input type="text" id="subname"></td></tr><tr><td>branch id:</td><td><select id='branid'><?php $database->pbrnches();?></select></td></tr><tr><td><input type="button" value="submit" id="subjsub"></td></tr></table></div></div>
 <div id="tabs4"><table id="flex4" style="display:none"></table><div id="form4" style="display:none;"><table><tr><td>topic title:</td><td><input type="text" id="topname"></td></tr><tr><td>subject name:</td><td><select id="subn"><?php $database->psubs();?></select></td></tr><tr><td><input type="button" value="submit" id="topsub"></td></tr></table></div></div>
 <div id="tabs5"><table id="flex5" style="display:none"></table><div id="upduser" style="display:none;"><select id="updlevel">

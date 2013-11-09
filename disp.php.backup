@@ -1,0 +1,3 @@
+<?php
+echo "<h1 style='color:red;'>Sorry No Exams are Scheduled Now</h1>";
+?>

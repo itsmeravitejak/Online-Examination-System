@@ -28,6 +28,12 @@ class exam
   echo $row[0];
   return $_SESSION['currentqarray'][$_SESSION['currentqkey']];
   }
+  function nextQ()
+  {
+    $_SESSION['currentqkey']++;
+    if($_SESSION['currentqarray'][$_SESSION['currentqkey']]==end($_SESSION['currentqarray']))
+    $_SESSION['isEndOfExam']=true;
+  }
   function loadans() //returns row[0] option1,row[1] option2....row[3] option4
   {
    global $database;
@@ -41,11 +47,13 @@ class exam
   function chkans($qid,$ansid) //checks the ans is correct or wrong
   {
    global $database;
-  $_SESSION['currentqkey']++;
-  if($database->iscor($qid,$ansid)) 
-  $_SESSION['corcount']++; 
-  if($_SESSION['currentqarray'][$_SESSION['currentqkey']]==end($_SESSION['currentqarray']))
-  $_SESSION['isEndOfExam']=true;
+    if($database->iscor($qid,$ansid)) 
+    {
+    $_SESSION['corcount']++; 
+    return true;
+    }
+    else
+      return false;
   }
   function endexam()
   {
@@ -62,6 +70,7 @@ class exam
   }
   function isEndOfExam()
   {
+   
   return $_SESSION['isEndOfExam'];
   }
 }

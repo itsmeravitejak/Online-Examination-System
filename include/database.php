@@ -5,8 +5,6 @@
  * The Database class is meant to simplify the task of accessing
  * information from the website's database.
  *
- * Written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
- * Last Updated: August 17, 2004
  */
 include("constants.php");
       
@@ -344,6 +342,16 @@ class MySQLDB
   $res=$this->query("select top_title  from ".TBL_TOPICS." where top_id=".$topid);
   $row=mysql_fetch_array($res);
   return $row[0];
+  }
+  function getreport($topicid)
+  {
+  $res=$this->query('select * from '.TBL_RESULTS.'  where top_id='.$topicid.' ORDER BY `username`');
+  
+  while ($row=mysql_fetch_array($res)) {
+   $rows[]=$row; 
+  }
+  return $rows;
+
   }
   function getresults($id)
   {

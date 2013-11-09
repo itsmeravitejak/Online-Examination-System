@@ -3,7 +3,7 @@
 include('../include/database.php');
 global $database;
 function countRec($fname,$tname) {
-global $database;
+    global $database;
 	$sql = "SELECT count($fname) FROM $tname ";
 	$result = $database->query($sql);
 	while ($row = mysql_fetch_array($result)) {

@@ -1,11 +1,13 @@
 <?php
-include("include/database.php");
+include("include/session.php");
+
 ?>
 <html>
 <head>
 <title>Talent Hunt-results</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<script src="js/jquery.js"></script>
 <style>
 #data tr{background-color:#BC7E7E;color:#301A1A;}
 #data td{font-size:19px;}
@@ -16,7 +18,23 @@ a img {border:none;}
 <body>
 <?php
 global $database;
-
+global $session;
+if(isset($_GET['admin']))
+{
+ if($session->isAdmin()){
+   include("selectexam.html.php");
+ }
+}
+if(isset($_POST['topic']))
+{
+  echo "<table align='center' border='1'>";
+  $rows=$database->getreport($_POST['topic']);
+  $count=1;
+  foreach ($rows as $row) {
+     echo "<tr><td>".$count++."</td><td>".$row['username']."</td><td>".$row['result']."</td></tr>";
+  }
+  echo "</table>";
+}
 if(isset($_GET['id']))
 {
  $examid=$_GET['id'];

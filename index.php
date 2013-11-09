@@ -12,7 +12,7 @@ if($session->logged_in){
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <style>
- body{background:url(images/banner.jpg) top center no-repeat ;margin-top:250px;}
+ 
 #exam{
 height:64px;
 width:64px;
@@ -73,26 +73,35 @@ padding-left:64px;
 padding-bottom:35px;
 color:#000;
 text-decoration:none;}
+#lnks{ margin-top: 130px;}
+body{margin-top: 0px;margin-left: 0px;}
  </style>
-<body>
-
+<body align="center">
+<div id="head" >
+  <img src="images/banner.jpg">
+</div>
+ <div id="lnks" align="center">
+<?php
+echo "Welcome <b>$session->username</b> <br><br><br><br>";
+?>
 <table>
 <tr><td>
 <?php
   
-   echo "Welcome <b>$session->username</b> <br><br><br><br>"
-       ."<a href=\"userinfo.php?user=$session->username\" id=\"myacc\">My Account</a> &nbsp;&nbsp;";
+   
+      echo  "<td><a href=\"userinfo.php?user=$session->username\" id=\"myacc\">My Account</a> </td>";
    if(!$session->isAdmin()){
-     echo "<a href=\"exam.php\" id=\"exam\">Exam</a> &nbsp;&nbsp;"
-     ."<a href=\"results.php?user=$session->username\" id=\"results\">Results</a> &nbsp;&nbsp;";
+     echo "<td><a href=\"exam.php\" id=\"exam\">Exam</a> </td>"
+     ."<td><a href=\"results.php?user=$session->username\" id=\"results\">Results</a> </td>";
     }
-   echo  "<a href=\"useredit.php\" id=\"editacc\">Edit Account</a> &nbsp;&nbsp;";
+   echo  "<td><a href=\"useredit.php\" id=\"editacc\">Edit Account</a> </td>";
    if($session->isAdmin()){
-      echo "<a href=\"admin/admin.php\" id=\"admin\">Administration</a> &nbsp;&nbsp;";
-      echo "<a href=\"admin/banuser.php\" id=\"ban\">ban users & active users</a> &nbsp;&nbsp;";
+      echo "<td><a href=\"results.php?admin=1\" id=\"results\">Results</a> </td>";
+      echo "<td><a href=\"admin/admin.php\" id=\"admin\">Administration</a> </td>";
+      echo "<td><a href=\"admin/banuser.php\" id=\"ban\">ban users & active users</a> </td>";
    }
-   echo "<a href=\"process.php\" id=\"logout\">Logout</a>";
-   echo "</td></tr></table></body></html>";
+   echo "<td><a href=\"process.php\" id=\"logout\">Logout</a></td>";
+   echo "</tr></table></div></body></html>";
 }
 else{
 

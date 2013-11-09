@@ -9,17 +9,18 @@
  <style>
  a:visited img {border: 0; }
  #in{padding-left:225px;}
- body{background:url(images/banner.jpg) top center no-repeat ;}
+ 
 #login{color:#fff;height:100px;width:400px;padding:30px 0px 0px 10px;}
 #login label.error{
   color: red;
   background:url("images/unchecked.gif") no-repeat 0px 0px;
   padding:0px 0px 0px 14px;
   }
-#head a{background:url(images/aboutus.png) no-repeat 0px 0px;display:block;text-indent:-9999px;height:39px;width:133px;margin-left:700px;}
+body{margin-top: 0px;margin-left: 0px;}
+#head a{background:url(images/aboutus.png) no-repeat 0px 0px;display:block;text-indent:-9999px;height:39px;width:133px;float:right;margin-right: 5%;}
 #head a:hover{background-image:url(images/aboutus-hover.png)}
-#aboutus{color:#e1dfdf;padding:20px 15px 10px 15px;}
-#lnks{padding-top:350px;}
+#aboutus{color: white;}
+#lnks{ margin-top: 130px;}
 #loginlnk{padding-right:123px;}
 #registerlnk{padding-left:123px;}
 #tag{width:500px;height:40px;background-color:#691818;color:#e1dfdf;font-size:200%;padding-left:3px;border-bottom:6px solid #000;}
@@ -27,6 +28,7 @@
 #data td{font-size:19px;}
 #data{width:500px;padding-left:3px;}
 #data .altrow{background-color:#301A1A;color:#BC7E7E;}
+#footer{bottom: 0;position:fixed;margin-left: 45%;}
  </style>
  <script src="js/jquery.js"></script>
 <script src="js/jquery.colorbox.js"></script>
@@ -49,27 +51,26 @@ shortcut.add("l",function() {
 
 </head>
 
-<body >
-<div id="head" align="center"><a href="#" id="aboutlnk">About us</a></div>
- <div id="lnks">
+<body align="center">
+<div id="head"  align="center">
+  <img src="images/banner.jpg">
+</div>
+ <div id="lnks" align="center">
 <?php
 if($form->num_errors > 0){
    echo "<font size=\"2\" color=\"#ff0000\">".$form->num_errors." error(s) found</font>";
 }?>
-<center>
+
         <a href="#" id="loginlnk" title="Login"><img src="images/login.jpg"  style="border:0;"></a>
         <a href="register.php" id="registerlnk"><img  src="images/register.jpg" style="border:0;"></a>
-</center>
+
  </div>
   <div style='display:none'>
   <div id="aboutus">
-  <div id="tag">Development team</div>
-<table id="data" cellspacing=0 cellpadding=10>
-<tr><td>07030-cm-050</td><td >K.RaviTeja</td></tr>
-<tr><td>07030-cm-020</td><td>Yeswanth</td></tr>
-<tr><td>07030-cm-036</td><td>Farid Khan</td></tr>
-<tr><td>07030-cm-001</td><td>A.HariKrishna(AHK)</td></tr>
-</table>
+  <div id="tag">Ravi Teja</div>
+   hey this is me man
+   test 
+   lets see<br>
   </div>
 <div id="login" >
 <?php echo $form->error("user"); ?>
@@ -85,6 +86,6 @@ if($form->num_errors > 0){
 </div>
 <div id="register"></div>
 </div>
-
+<div id="footer"  ><a href="#" id="aboutlnk">&copy; Development Team </a></div>
 </body>
 </html>

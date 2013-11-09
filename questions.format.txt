@@ -1,0 +1,28 @@
+-------------------------
+1)   this is the question
+a) this is option 1
+b) this is option 2(ans)
+c) this is option 3
+d) this is option 4
+2)   this is the question this is a long question even though the question is long it must be placed in single line only
+a) this is option 1
+b) this is option 2
+c) this is option 3
+d) this is option 4(ans)
+3)  <img src="images/qs/1.jpg">
+a) this is option 1(ans)
+b) this is option 2
+c) this is option 3
+d) this is option 4
+-----------------------
+Format
+1)1st line represents question and 5 characters are left and the rest of line is considered as question 
+2)2nd line is considered as 1st option/answer
+3)3nd line is considered as 2nd option/answer
+4)4nd line is considered as 3rd option/answer
+5)5nd line is considered as 4rth option/answer
+Note:-
+--To mark a option as correct answer just place (ans) after that 
+--line break is considered as next item so dont use line break/carriage return in text
+--to use a image as question or answer text simply place that image 
+in a subfolder to images folder in project and use url as /images/subfoldername/imagename.jpg

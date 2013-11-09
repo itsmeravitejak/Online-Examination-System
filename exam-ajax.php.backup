@@ -1,4 +1,4 @@
-<?php
+//nothing<?php
 include("include/exam.php");
 global $session;
 if(!$session->logged_in)
