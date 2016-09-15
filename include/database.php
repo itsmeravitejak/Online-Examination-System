@@ -19,8 +19,8 @@ class MySQLDB
    /* Class constructor */
    function MySQLDB(){
       /* Make connection to database */
-      $this->connection = mysql_connect(DB_SERVER, DB_USER, DB_PASS) or die(mysql_error());
-      mysql_select_db(DB_NAME, $this->connection) or die(mysql_error());
+      $this->connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS) or die(mysqli_error());
+      mysqli_select_db(DB_NAME, $this->connection) or die(mysqli_error());
       
       /**
        * Only query database to find out number of members
@@ -54,13 +54,13 @@ class MySQLDB
 
       /* Verify that user is in database */
       $q = "SELECT password FROM ".TBL_USERS." WHERE username = '$username'";
-      $result = mysql_query($q, $this->connection);
-      if(!$result || (mysql_numrows($result) < 1)){
+      $result = mysqli_query($q, $this->connection);
+      if(!$result || (mysqli_numrows($result) < 1)){
          return 1; //Indicates username failure
       }
 
       /* Retrieve password from result, strip slashes */
-      $dbarray = mysql_fetch_array($result);
+      $dbarray = mysqli_fetch_array($result);
       $dbarray['password'] = stripslashes($dbarray['password']);
       $password = stripslashes($password);
 
@@ -89,13 +89,13 @@ class MySQLDB
 
       /* Verify that user is in database */
       $q = "SELECT userid FROM ".TBL_USERS." WHERE username = '$username'";
-      $result = mysql_query($q, $this->connection);
-      if(!$result || (mysql_numrows($result) < 1)){
+      $result = mysqli_query($q, $this->connection);
+      if(!$result || (mysqli_numrows($result) < 1)){
          return 1; //Indicates username failure
       }
 
       /* Retrieve userid from result, strip slashes */
-      $dbarray = mysql_fetch_array($result);
+      $dbarray = mysqli_fetch_array($result);
       $dbarray['userid'] = stripslashes($dbarray['userid']);
       $userid = stripslashes($userid);
 
@@ -117,8 +117,8 @@ class MySQLDB
          $username = addslashes($username);
       }
       $q = "SELECT username FROM ".TBL_USERS." WHERE username = '$username'";
-      $result = mysql_query($q, $this->connection);
-      return (mysql_numrows($result) > 0);
+      $result = mysqli_query($q, $this->connection);
+      return (mysqli_numrows($result) > 0);
    }
    
    /**
@@ -130,8 +130,8 @@ class MySQLDB
          $username = addslashes($username);
       }
       $q = "SELECT username FROM ".TBL_BANNED_USERS." WHERE username = '$username'";
-      $result = mysql_query($q, $this->connection);
-      return (mysql_numrows($result) > 0);
+      $result = mysqli_query($q, $this->connection);
+      return (mysqli_numrows($result) > 0);
    }
    
    /**
@@ -148,7 +148,7 @@ class MySQLDB
          $ulevel = USER_LEVEL;
       }
       $q = "INSERT INTO ".TBL_USERS." VALUES ('$username', '$password', '0', $ulevel, '$email', $time, $branch)";
-      return mysql_query($q, $this->connection);
+      return mysqli_query($q, $this->connection);
    }
    
    /**
@@ -157,7 +157,7 @@ class MySQLDB
     */
    function updateUserField($username, $field, $value){
       $q = "UPDATE ".TBL_USERS." SET ".$field." = '$value' WHERE username = '$username'";
-      return mysql_query($q, $this->connection);
+      return mysqli_query($q, $this->connection);
    }
    
    /**
@@ -167,13 +167,13 @@ class MySQLDB
     */
    function getUserInfo($username){
       $q = "SELECT * FROM ".TBL_USERS." WHERE username = '$username'";
-      $result = mysql_query($q, $this->connection);
+      $result = mysqli_query($q, $this->connection);
       /* Error occurred, return given name by default */
-      if(!$result || (mysql_numrows($result) < 1)){
+      if(!$result || (mysqli_numrows($result) < 1)){
          return NULL;
       }
       /* Return result array */
-      $dbarray = mysql_fetch_array($result);
+      $dbarray = mysqli_fetch_array($result);
       return $dbarray;
    }
    
@@ -188,8 +188,8 @@ class MySQLDB
    function getNumMembers(){
       if($this->num_members < 0){
          $q = "SELECT * FROM ".TBL_USERS;
-         $result = mysql_query($q, $this->connection);
-         $this->num_members = mysql_numrows($result);
+         $result = mysqli_query($q, $this->connection);
+         $this->num_members = mysqli_numrows($result);
       }
       return $this->num_members;
    }
@@ -201,8 +201,8 @@ class MySQLDB
    function calcNumActiveUsers(){
       /* Calculate number of users at site */
       $q = "SELECT * FROM ".TBL_ACTIVE_USERS;
-      $result = mysql_query($q, $this->connection);
-      $this->num_active_users = mysql_numrows($result);
+      $result = mysqli_query($q, $this->connection);
+      $this->num_active_users = mysqli_numrows($result);
    }
    
    /**
@@ -212,8 +212,8 @@ class MySQLDB
    function calcNumActiveGuests(){
       /* Calculate number of guests at site */
       $q = "SELECT * FROM ".TBL_ACTIVE_GUESTS;
-      $result = mysql_query($q, $this->connection);
-      $this->num_active_guests = mysql_numrows($result);
+      $result = mysqli_query($q, $this->connection);
+      $this->num_active_guests = mysqli_numrows($result);
    }
    
    /**
@@ -223,11 +223,11 @@ class MySQLDB
     */
    function addActiveUser($username, $time){
       $q = "UPDATE ".TBL_USERS." SET timestamp = '$time' WHERE username = '$username'";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       
       if(!TRACK_VISITORS) return;
       $q = "REPLACE INTO ".TBL_ACTIVE_USERS." VALUES ('$username', '$time')";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       $this->calcNumActiveUsers();
    }
    
@@ -235,7 +235,7 @@ class MySQLDB
    function addActiveGuest($ip, $time){
       if(!TRACK_VISITORS) return;
       $q = "REPLACE INTO ".TBL_ACTIVE_GUESTS." VALUES ('$ip', '$time')";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       $this->calcNumActiveGuests();
    }
    
@@ -245,7 +245,7 @@ class MySQLDB
    function removeActiveUser($username){
       if(!TRACK_VISITORS) return;
       $q = "DELETE FROM ".TBL_ACTIVE_USERS." WHERE username = '$username'";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       $this->calcNumActiveUsers();
    }
    
@@ -253,7 +253,7 @@ class MySQLDB
    function removeActiveGuest($ip){
       if(!TRACK_VISITORS) return;
       $q = "DELETE FROM ".TBL_ACTIVE_GUESTS." WHERE ip = '$ip'";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       $this->calcNumActiveGuests();
    }
    
@@ -262,7 +262,7 @@ class MySQLDB
       if(!TRACK_VISITORS) return;
       $timeout = time()-USER_TIMEOUT*60;
       $q = "DELETE FROM ".TBL_ACTIVE_USERS." WHERE timestamp < $timeout";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       $this->calcNumActiveUsers();
    }
 
@@ -271,7 +271,7 @@ class MySQLDB
       if(!TRACK_VISITORS) return;
       $timeout = time()-GUEST_TIMEOUT*60;
       $q = "DELETE FROM ".TBL_ACTIVE_GUESTS." WHERE timestamp < $timeout";
-      mysql_query($q, $this->connection);
+      mysqli_query($q, $this->connection);
       $this->calcNumActiveGuests();
    }
    
@@ -281,12 +281,12 @@ class MySQLDB
     * resource identifier.
     */
    function query($query){
-      return mysql_query($query, $this->connection);
+      return mysqli_query($query, $this->connection);
    }
    function getranqarray($topid,$size)
    {
    $res=$this->query('select q_id from '.TBL_QUESTIONS.' where top_id='.$topid );
-   while($row=mysql_fetch_array($res))
+   while($row=mysqli_fetch_array($res))
    {
    $ar[]=$row[0];
    }
@@ -297,7 +297,7 @@ class MySQLDB
    function iscor($qid,$ansid)
    {
    $res=$this->query("select q_ans from ".TBL_QUESTIONS." where q_id=$qid");
-   $row=mysql_fetch_array($res);
+   $row=mysqli_fetch_array($res);
    if($ansid==$row[0])
    return true;
    else
@@ -306,7 +306,7 @@ class MySQLDB
   function isdreqs($topid,$size)
   { 
   $res=$this->query('select count(*) from '.TBL_QUESTIONS.' where top_id='.$topid );
-  $row=mysql_fetch_array($res);
+  $row=mysqli_fetch_array($res);
   if($row[0]>=$size)
   return true; 
   else
@@ -315,7 +315,7 @@ class MySQLDB
   function noresults($stdid)
   {
   $res=$this->query('select count(*) from '.TBL_RESULTS.' where username="'.$stdid.'"');
-  $row=mysql_fetch_array($res);
+  $row=mysqli_fetch_array($res);
   if($row[0]>0)
   return false;
   else 
@@ -324,7 +324,7 @@ class MySQLDB
   function valid($examid)
   {
   $res=$this->query('select count(*) from '.TBL_RESULTS.' where exam_id='.$examid);
-  $row=mysql_fetch_array($res);
+  $row=mysqli_fetch_array($res);
   if($row[0]>0)
   return true;
   else 
@@ -333,21 +333,21 @@ class MySQLDB
   function getExams($stdid)
   {
   $res=$this->query('select * from '.TBL_RESULTS.' where username="'.$stdid.'" ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
-  while($row=mysql_fetch_array($res))
+  while($row=mysqli_fetch_array($res))
   $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id']);
   return $arr;
   }
   function gettopicname($topid)
   {
   $res=$this->query("select top_title  from ".TBL_TOPICS." where top_id=".$topid);
-  $row=mysql_fetch_array($res);
+  $row=mysqli_fetch_array($res);
   return $row[0];
   }
   function getreport($topicid)
   {
   $res=$this->query('select * from '.TBL_RESULTS.'  where top_id='.$topicid.' ORDER BY `username`');
   
-  while ($row=mysql_fetch_array($res)) {
+  while ($row=mysqli_fetch_array($res)) {
    $rows[]=$row; 
   }
   return $rows;
@@ -356,14 +356,14 @@ class MySQLDB
   function getresults($id)
   {
   $res=$this->query('select * from '.TBL_RESULTS.' where exam_id='.$id);
-  $row=mysql_fetch_array($res);
+  $row=mysqli_fetch_array($res);
   $ar=array('got'=>$row['result'],'for'=>$row['for'],'topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y",$row['timestamp']),'username'=>$row['username'],'time'=>date("h : m : s",$row['timestamp']));
   return $ar;
   }
   function latestExamId($username)
   {
   $res=$this->query("select * from ".TBL_RESULTS." where timestamp=(select max(timestamp) from ".TBL_RESULTS." where username='".$username."')");
-  $row= mysql_fetch_array($res);
+  $row= mysqli_fetch_array($res);
   return $row[0];
   }
   function topicslist($subid=NULL)
@@ -373,7 +373,7 @@ class MySQLDB
   else
   $where="where sub_id=".$subid;
   $res=$this->query("select top_id,top_title from ".TBL_TOPICS." ".$where);
-  while($row=mysql_fetch_array($res))
+  while($row=mysqli_fetch_array($res))
   echo "<option value=".$row['top_id'].">".$row['top_title']."</option>";
   }
   function pbrnches()
@@ -381,7 +381,7 @@ class MySQLDB
   $result=$this->query("select * from ".TBL_BRANCH.";");
   if(!$result)
   {echo "error executing query";exit();}
-  while($rows=mysql_fetch_array($result))
+  while($rows=mysqli_fetch_array($result))
   {
   echo "<option value=".$rows['bran_id'].">".$rows['bran_name']."</option>";
   }
@@ -393,20 +393,20 @@ class MySQLDB
   else
   $where="where bran_id=".$branid;
   $res=$this->query("select sub_id,sub_title from ".TBL_SUBJECTS." ".$where);
-  while($row=mysql_fetch_array($res))
+  while($row=mysqli_fetch_array($res))
   echo "<option value=".$row['sub_id'].">".$row['sub_title']."</option>";
   }
   function getbranname($branid)
   {
   global $database;
   $sql="select bran_name from ".TBL_BRANCH." where bran_id=$branid";
-  $row=mysql_fetch_array($database->query($sql));
+  $row=mysqli_fetch_array($database->query($sql));
   return $row[0];
   }
   function getsubname($subid)
   {
   $sql="select sub_title from ".TBL_SUBJECTS." where sub_id=$subid";
-  $row=mysql_fetch_array($this->query($sql)); 
+  $row=mysqli_fetch_array($this->query($sql)); 
   return $row[0];
 }
 };
