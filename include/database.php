@@ -55,7 +55,7 @@ class MySQLDB
       /* Verify that user is in database */
       $q = "SELECT password FROM ".TBL_USERS." WHERE username = '$username'";
       $result = mysqli_query( $this->connection,$q);
-      if(!$result || (mysqli_numrows($result) < 1)){
+      if(!$result || (mysqli_num_rows($result) < 1)){
          return 1; //Indicates username failure
       }
 
@@ -90,7 +90,7 @@ class MySQLDB
       /* Verify that user is in database */
       $q = "SELECT userid FROM ".TBL_USERS." WHERE username = '$username'";
       $result = mysqli_query( $this->connection,$q);
-      if(!$result || (mysqli_numrows($result) < 1)){
+      if(!$result || (mysqli_num_rows($result) < 1)){
          return 1; //Indicates username failure
       }
 
@@ -118,7 +118,7 @@ class MySQLDB
       }
       $q = "SELECT username FROM ".TBL_USERS." WHERE username = '$username'";
       $result = mysqli_query( $this->connection,$q);
-      return (mysqli_numrows($result) > 0);
+      return (mysqli_num_rows($result) > 0);
    }
    
    /**
@@ -131,7 +131,7 @@ class MySQLDB
       }
       $q = "SELECT username FROM ".TBL_BANNED_USERS." WHERE username = '$username'";
       $result = mysqli_query( $this->connection,$q);
-      return (mysqli_numrows($result) > 0);
+      return (mysqli_num_rows($result) > 0);
    }
    
    /**
@@ -169,7 +169,7 @@ class MySQLDB
       $q = "SELECT * FROM ".TBL_USERS." WHERE username = '$username'";
       $result = mysqli_query($this->connection,$q);
       /* Error occurred, return given name by default */
-      if(!$result || (mysqli_numrows($result) < 1)){
+      if(!$result || (mysqli_num_rows($result) < 1)){
          return NULL;
       }
       /* Return result array */
@@ -189,7 +189,7 @@ class MySQLDB
       if($this->num_members < 0){
          $q = "SELECT * FROM ".TBL_USERS;
          $result = mysqli_query($this->connection,$q);
-         $this->num_members = mysqli_numrows($result);
+         $this->num_members = mysqli_num_rows($result);
       }
       return $this->num_members;
    }
@@ -202,7 +202,7 @@ class MySQLDB
       /* Calculate number of users at site */
       $q = "SELECT * FROM ".TBL_ACTIVE_USERS;
       $result = mysqli_query($this->connection,$q);
-      $this->num_active_users = mysqli_numrows($result);
+      $this->num_active_users = mysqli_num_rows($result);
    }
    
    /**
@@ -213,7 +213,7 @@ class MySQLDB
       /* Calculate number of guests at site */
       $q = "SELECT * FROM ".TBL_ACTIVE_GUESTS;
       $result = mysqli_query($this->connection,$q);
-      $this->num_active_guests = mysqli_numrows($result);
+      $this->num_active_guests = mysqli_num_rows($result);
    }
    
    /**
